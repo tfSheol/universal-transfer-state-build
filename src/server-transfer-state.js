@@ -31,10 +31,9 @@ var ServerTransferState = (function (_super) {
             var head = Array.from(html.children).find(function (child) { return child.name === 'head'; });
             var outlet = Array.from(main.children).find(function (child) { return child.name === 'router-outlet'; });
             var ngComponent = Array.from(main.children).find(function (child) { return child.name === 'ng-component'; });
-            var style_1 = Array.from(head.children).find(function (child) { return child.name === 'style'; });
             Array.from(head.children).forEach(function (child) {
                 if (child.name === 'style') {
-                    renderer_1.removeAttribute(style_1, 'ng-transition');
+                    renderer_1.removeAttribute(child, 'ng-transition');
                 }
             });
             renderer_1.removeChild(main, outlet);
