@@ -8,6 +8,12 @@ export class ServerTransferState extends TransferState {
         super();
     }
 
+    test(renderer: any, style: any, name: any): any {
+        if (name === 'style') {
+            renderer.removeAttribute(style, 'ng-transition');
+        }
+    }
+
     removeExtra(): void {
         try {
             const document: any = this.state.getDocument();
@@ -28,10 +34,11 @@ export class ServerTransferState extends TransferState {
             const ngComponent: any = Array.from(main.children).find((child: any) => child.name === 'ng-component');
             const style: any = Array.from(head.children).find((child: any) => child.name === 'style');
 
+            Array.from(head.children).forEach(this.test(renderer, style, (child: any) => child.name));
+
             renderer.removeChild(main, outlet);
             renderer.removeAttribute(ngComponent, 'ng-version');
             renderer.removeAttribute(content, 'ng-version');
-            renderer.removeAttribute(style, 'ng-transition');
         } catch (e) {
             console.error(e);
         }

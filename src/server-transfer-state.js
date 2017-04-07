@@ -10,6 +10,11 @@ var ServerTransferState = (function (_super) {
         _this.rendererFactory = rendererFactory;
         return _this;
     }
+    ServerTransferState.prototype.test = function (renderer, style, name) {
+        if (name === 'style') {
+            renderer.removeAttribute(style, 'ng-transition');
+        }
+    };
     ServerTransferState.prototype.removeExtra = function () {
         try {
             var document_1 = this.state.getDocument();
@@ -27,10 +32,10 @@ var ServerTransferState = (function (_super) {
             var outlet = Array.from(main.children).find(function (child) { return child.name === 'router-outlet'; });
             var ngComponent = Array.from(main.children).find(function (child) { return child.name === 'ng-component'; });
             var style = Array.from(head.children).find(function (child) { return child.name === 'style'; });
+            Array.from(head.children).forEach(this.test(renderer, style, function (child) { return child.name; }));
             renderer.removeChild(main, outlet);
             renderer.removeAttribute(ngComponent, 'ng-version');
             renderer.removeAttribute(content, 'ng-version');
-            renderer.removeAttribute(style, 'ng-transition');
         }
         catch (e) {
             console.error(e);
