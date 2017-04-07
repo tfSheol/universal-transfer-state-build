@@ -1,6 +1,6 @@
 {
   "name": "@nglibs/universal-transfer-state",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "State transferring module for Angular Universal",
   "repository": {
     "type": "git",

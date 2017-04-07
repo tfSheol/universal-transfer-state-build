@@ -22,13 +22,16 @@ export class ServerTransferState extends TransferState {
             const body: any = Array.from(html.children).find((child: any) => child.name === 'body');
             const content: any = Array.from(body.children).find((child: any) => child.name === 'content');
             const main: any = Array.from(content.children).find((child: any) => child.name === 'main');
+            const head: any = Array.from(html.children).find((child: any) => child.name === 'head');
 
             const outlet: any = Array.from(main.children).find((child: any) => child.name === 'router-outlet');
             const ngComponent: any = Array.from(main.children).find((child: any) => child.name === 'ng-component');
+            const style: any = Array.from(head.children).find((child: any) => child.name === 'style');
 
             renderer.removeChild(main, outlet);
             renderer.removeAttribute(ngComponent, 'ng-version');
             renderer.removeAttribute(content, 'ng-version');
+            renderer.removeAttribute(style, 'ng-transition');
         } catch (e) {
             console.error(e);
         }

@@ -23,11 +23,14 @@ var ServerTransferState = (function (_super) {
             var body = Array.from(html.children).find(function (child) { return child.name === 'body'; });
             var content = Array.from(body.children).find(function (child) { return child.name === 'content'; });
             var main = Array.from(content.children).find(function (child) { return child.name === 'main'; });
+            var head = Array.from(html.children).find(function (child) { return child.name === 'head'; });
             var outlet = Array.from(main.children).find(function (child) { return child.name === 'router-outlet'; });
             var ngComponent = Array.from(main.children).find(function (child) { return child.name === 'ng-component'; });
+            var style = Array.from(head.children).find(function (child) { return child.name === 'style'; });
             renderer.removeChild(main, outlet);
             renderer.removeAttribute(ngComponent, 'ng-version');
             renderer.removeAttribute(content, 'ng-version');
+            renderer.removeAttribute(style, 'ng-transition');
         }
         catch (e) {
             console.error(e);
