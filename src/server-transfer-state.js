@@ -18,7 +18,7 @@ var ServerTransferState = (function (_super) {
     ServerTransferState.prototype.removeExtra = function () {
         try {
             var document_1 = this.state.getDocument();
-            var renderer = this.rendererFactory.createRenderer(document_1, {
+            var renderer_1 = this.rendererFactory.createRenderer(document_1, {
                 id: '-1',
                 encapsulation: ViewEncapsulation.None,
                 styles: [],
@@ -31,11 +31,15 @@ var ServerTransferState = (function (_super) {
             var head = Array.from(html.children).find(function (child) { return child.name === 'head'; });
             var outlet = Array.from(main.children).find(function (child) { return child.name === 'router-outlet'; });
             var ngComponent = Array.from(main.children).find(function (child) { return child.name === 'ng-component'; });
-            var style = Array.from(head.children).find(function (child) { return child.name === 'style'; });
-            Array.from(head.children).forEach(this.test(renderer, style, function (child) { return child.name; }));
-            renderer.removeChild(main, outlet);
-            renderer.removeAttribute(ngComponent, 'ng-version');
-            renderer.removeAttribute(content, 'ng-version');
+            var style_1 = Array.from(head.children).find(function (child) { return child.name === 'style'; });
+            Array.from(head.children).forEach(function (child) {
+                if (child.name === 'style') {
+                    renderer_1.removeAttribute(style_1, 'ng-transition');
+                }
+            });
+            renderer_1.removeChild(main, outlet);
+            renderer_1.removeAttribute(ngComponent, 'ng-version');
+            renderer_1.removeAttribute(content, 'ng-version');
         }
         catch (e) {
             console.error(e);
