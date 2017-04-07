@@ -5,5 +5,7 @@ export declare class ServerTransferState extends TransferState {
     private state;
     private rendererFactory;
     constructor(state: PlatformState, rendererFactory: RendererFactory2);
+    removeExtra(): void;
+    transfertState(): void;
     inject(): void;
 }

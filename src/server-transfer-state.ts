@@ -27,8 +27,8 @@ export class ServerTransferState extends TransferState {
             const ngComponent: any = Array.from(main.children).find((child: any) => child.name === 'ng-component');
 
             renderer.removeChild(main, outlet);
-            renderer.removeAttribute(ngComponent, "ng-version");
-            renderer.removeAttribute(content, "ng-version");
+            renderer.removeAttribute(ngComponent, 'ng-version');
+            renderer.removeAttribute(content, 'ng-version');
         } catch (e) {
             console.error(e);
         }

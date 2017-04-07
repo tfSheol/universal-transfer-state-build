@@ -10,10 +10,9 @@ var ServerTransferState = (function (_super) {
         _this.rendererFactory = rendererFactory;
         return _this;
     }
-    ServerTransferState.prototype.inject = function () {
+    ServerTransferState.prototype.removeExtra = function () {
         try {
             var document_1 = this.state.getDocument();
-            var transferStateString = JSON.stringify(this.toJson());
             var renderer = this.rendererFactory.createRenderer(document_1, {
                 id: '-1',
                 encapsulation: ViewEncapsulation.None,
@@ -21,12 +20,44 @@ var ServerTransferState = (function (_super) {
                 data: {}
             });
             var html = Array.from(document_1.children).find(function (child) { return child.name === 'html'; });
+            var body = Array.from(html.children).find(function (child) { return child.name === 'body'; });
+            var content = Array.from(body.children).find(function (child) { return child.name === 'content'; });
+            var main = Array.from(content.children).find(function (child) { return child.name === 'main'; });
+            var outlet = Array.from(main.children).find(function (child) { return child.name === 'router-outlet'; });
+            var ngComponent = Array.from(main.children).find(function (child) { return child.name === 'ng-component'; });
+            renderer.removeChild(main, outlet);
+            renderer.removeAttribute(ngComponent, 'ng-version');
+            renderer.removeAttribute(content, 'ng-version');
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+    ServerTransferState.prototype.transfertState = function () {
+        try {
+            var document_2 = this.state.getDocument();
+            var transferStateString = JSON.stringify(this.toJson());
+            var renderer = this.rendererFactory.createRenderer(document_2, {
+                id: '-1',
+                encapsulation: ViewEncapsulation.None,
+                styles: [],
+                data: {}
+            });
+            var html = Array.from(document_2.children).find(function (child) { return child.name === 'html'; });
             var head = Array.from(html.children).find(function (child) { return child.name === 'head'; });
             if (!head)
                 throw new Error('<head> not found in the document');
             var script = renderer.createElement('script');
             renderer.setValue(script, "window['TRANSFER_STATE'] = " + transferStateString);
             renderer.appendChild(head, script);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+    ServerTransferState.prototype.inject = function () {
+        try {
+            this.removeExtra();
         }
         catch (e) {
             console.error(e);
